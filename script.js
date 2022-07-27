@@ -71,13 +71,16 @@ function checkConditions() {
         checkBoard.push(element.innerText)
     })
     console.log(checkBoard)
-    if (((checkBoard[0] == player) && (checkBoard[1] == player) && (checkBoard[2] == player)) ||
-        ((checkBoard[0] == player) && (checkBoard[3] == player) && (checkBoard[6] == player)) ||
-        ((checkBoard[0] == player) && (checkBoard[4] == player) && (checkBoard[8] == player)) ||
-        ((checkBoard[1] == player) && (checkBoard[4] == player) && (checkBoard[7] == player)) ||
-        ((checkBoard[2] == player) && (checkBoard[5] == player) && (checkBoard[8] == player)) ||
+    if ( //checks rows for winning condition
+        ((checkBoard[0] == player) && (checkBoard[1] == player) && (checkBoard[2] == player)) ||
         ((checkBoard[3] == player) && (checkBoard[4] == player) && (checkBoard[5] == player)) ||
         ((checkBoard[6] == player) && (checkBoard[7] == player) && (checkBoard[8] == player)) ||
+        //checks columns for winning condition
+        ((checkBoard[0] == player) && (checkBoard[3] == player) && (checkBoard[6] == player)) ||
+        ((checkBoard[1] == player) && (checkBoard[4] == player) && (checkBoard[7] == player)) ||
+        ((checkBoard[2] == player) && (checkBoard[5] == player) && (checkBoard[8] == player)) ||
+        //checks diagonals for winning condition
+        ((checkBoard[0] == player) && (checkBoard[4] == player) && (checkBoard[8] == player)) ||
         ((checkBoard[2] == player) && (checkBoard[4] == player) && (checkBoard[6] == player))) {
         return 1
     }

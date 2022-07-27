@@ -1,6 +1,8 @@
 # Tic-Tac-Toe
 A Tic-Tac-Toe program
 
+V 1.1.2 Minor updates.
+
 V 1.1.1 Updated code to reduce redundancy as well as added comments to clarify code. Also removed unnecessary function loadBoard.
 
 V 1.1 Created a rudimentary AI that randomly selects positions on the game board after "thinking" first.
