@@ -1,13 +1,16 @@
 document.getElementById("reset").onclick = function () { defaultGameBoard() }
 let player = "X"
 let boardArray = [...document.getElementsByClassName("board")]
+playerTurn = document.getElementById("playerTurn")
 
+// Allows board locations to be clicked for placement
 function startUpBoard() {
     for (i = 0; i < boardArray.length; i++) {
         boardArray[i].onclick = function () { pickSelection(this) }
     }
 }
 
+// Disallows board locations to be clicked for placement
 function turnOffBoard() {
     for (i = 0; i < boardArray.length; i++) {
         boardArray[i].onclick = ''
@@ -16,53 +19,55 @@ function turnOffBoard() {
 
 startUpBoard()
 
+// Takes selected location on the game board and decides if turn is legal or not, then
+// checks for winning conditions before switching player. Also returns a message directing
+// the player to pick another spot if they selected an occupied spot.
 function pickSelection(element) {
     if (element.innerText == "") {
         element.innerText = player
         if (checkConditions() == 0) {
             player = setPlayer(player)
-            document.getElementById("playerTurn").innerText = `Player ${player}'s turn.`
+            playerTurn.innerText = `Player ${player}'s turn.`
             if (player == 'O') { aiSelection() }
         } else if (checkConditions() == 1) {
-            document.getElementById("playerTurn").innerText = `Player ${player} wins!`
+            playerTurn.innerText = `Player ${player} wins!`
             turnOffBoard()
             player = setPlayer(player)
         } else {
-            document.getElementById("playerTurn").innerText = `You tied.`
+            playerTurn.innerText = `You tied.`
             player = setPlayer(player)
         }
     } else {
         if (player == 'X') {
-            alert("Pick another spot.")
+            playerTurn.innerText = `Pick another spot, ${player}`
         } else {
             aiSelection()
         }
     }
 }
 
-function loadBoard() {
-    let boardArray = [...document.getElementsByClassName("board")]
-    return boardArray
-}
-
+// Erases the game board and sets the player back to X
 function defaultGameBoard() {
-    loadBoard().forEach(element => {
+    boardArray.forEach(element => {
         element.innerText = ""
     })
     startUpBoard()
     player = "X"
-    document.getElementById("playerTurn").innerText = `Player ${player}'s turn.`
+    playerTurn.innerText = `Player ${player}'s turn.`
 }
 
+// Switches player turn
 function setPlayer(player) {
     if (player == "X") return "O"
     return "X"
 }
 
+// Checks to see if the most recent move resulted in a win or tie and if not, 
+// returns a value to pickSelection that changes which player goes next
 function checkConditions() {
     let checkBoard = []
     let tied = false
-    loadBoard().forEach(element => {
+    boardArray.forEach(element => {
         checkBoard.push(element.innerText)
     })
     console.log(checkBoard)
@@ -88,8 +93,10 @@ function checkConditions() {
     return 0
 }
 
+// Rudimentary AI selection
+// will add more intelligent functionality
 function aiSelection() {
-    document.getElementById("playerTurn").innerText = `Player ${player} is thinking.`
+    playerTurn.innerText = `Player ${player} is thinking.`
     randomPlacement = Math.floor(Math.random() * 9)
     console.log(randomPlacement)
     setTimeout(() => {
