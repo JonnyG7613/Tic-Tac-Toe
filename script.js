@@ -22,6 +22,7 @@ function pickSelection(element) {
         if (checkConditions() == 0) {
             player = setPlayer(player)
             document.getElementById("playerTurn").innerText = `Player ${player}'s turn.`
+            if (player == 'O') { aiSelection() }
         } else if (checkConditions() == 1) {
             document.getElementById("playerTurn").innerText = `Player ${player} wins!`
             turnOffBoard()
@@ -31,7 +32,11 @@ function pickSelection(element) {
             player = setPlayer(player)
         }
     } else {
-        alert("Pick another spot.")
+        if (player == 'X') {
+            alert("Pick another spot.")
+        } else {
+            aiSelection()
+        }
     }
 }
 
@@ -45,6 +50,7 @@ function defaultGameBoard() {
         element.innerText = ""
     })
     startUpBoard()
+    player = "X"
     document.getElementById("playerTurn").innerText = `Player ${player}'s turn.`
 }
 
@@ -80,4 +86,13 @@ function checkConditions() {
     }
     if (tied == true) { return 2 }
     return 0
+}
+
+function aiSelection() {
+    document.getElementById("playerTurn").innerText = `Player ${player} is thinking.`
+    randomPlacement = Math.floor(Math.random() * 9)
+    console.log(randomPlacement)
+    setTimeout(() => {
+        pickSelection(boardArray[randomPlacement])
+    }, 1000)
 }
