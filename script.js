@@ -5,14 +5,14 @@ playerTurn = document.getElementById("playerTurn")
 
 // Allows board locations to be clicked for placement
 function startUpBoard() {
-    for (i = 0; i < boardArray.length; i++) {
+    for (let i = 0; i < boardArray.length; i++) {
         boardArray[i].onclick = function () { pickSelection(this) }
     }
 }
 
 // Disallows board locations to be clicked for placement
 function turnOffBoard() {
-    for (i = 0; i < boardArray.length; i++) {
+    for (let i = 0; i < boardArray.length; i++) {
         boardArray[i].onclick = ''
     }
 }
@@ -25,11 +25,12 @@ startUpBoard()
 function pickSelection(element) {
     if (element.innerText == "") {
         element.innerText = player
-        if (checkConditions() == 0) {
+        let result = checkConditions()
+        if (result == 2) {
             player = setPlayer(player)
             playerTurn.innerText = `Player ${player}'s turn.`
-            if (player == 'O') { aiSelection() }
-        } else if (checkConditions() == 1) {
+            if (player == 'O') { aiSmartSelection() }
+        } else if ((result == 1) || (result == -1)) {
             playerTurn.innerText = `Player ${player} wins!`
             turnOffBoard()
             player = setPlayer(player)
@@ -41,7 +42,7 @@ function pickSelection(element) {
         if (player == 'X') {
             playerTurn.innerText = `Pick another spot, ${player}`
         } else {
-            aiSelection()
+            aiSmartSelection()
         }
     }
 }
@@ -82,27 +83,91 @@ function checkConditions() {
         //checks diagonals for winning condition
         ((checkBoard[0] == player) && (checkBoard[4] == player) && (checkBoard[8] == player)) ||
         ((checkBoard[2] == player) && (checkBoard[4] == player) && (checkBoard[6] == player))) {
-        return 1
+        if (player == 'X') {
+            return 1
+        } else {
+            return -1
+        }
     }
-    for (i = 0; i < checkBoard.length; i++) {
+    for (i = 0; i < 9; i++) {
         if (checkBoard[i] === "") {
-            tied = false
-            break
+            return 2
         } else {
             tied = true
         }
     }
-    if (tied == true) { return 2 }
-    return 0
+    if (tied == true) { return 0 }
 }
 
 // Rudimentary AI selection
 // will add more intelligent functionality
-function aiSelection() {
+function aiRandomSelection() {
     playerTurn.innerText = `Player ${player} is thinking.`
     randomPlacement = Math.floor(Math.random() * 9)
     console.log(randomPlacement)
     setTimeout(() => {
         pickSelection(boardArray[randomPlacement])
     }, 1000)
+}
+
+// AI selection based on minimax
+function aiSmartSelection() {
+    let bestScore = -Infinity
+    let bestMove
+    for (let i = 0; i < 9; i++) {
+        console.log(`${i}`)
+        if (boardArray[i].innerText == '') {
+            boardArray[i].innerText = player
+            let score = minimax(boardArray, player)
+            console.log(`setting board selection back to '', score is ${score}`)
+            boardArray[i].innerText = ''
+            console.log(`score: ${score} > bestScore: ${bestScore}`)
+            if (score > bestScore) {
+                bestScore = score
+                bestMove = i
+            }
+        }
+    }
+    console.log(`hitting pickSelection next with bestMove being ${bestMove}`)
+    pickSelection(boardArray[bestMove])
+}
+
+
+function minimax(gameBoard, player) {
+    let result = checkConditions()
+    if (result !== 2) {
+        console.log(`returning ${result}`)
+        return result
+    }
+
+    if (player == 'X') {
+        let bestScore = -Infinity
+        for (let i = 0; i < 9; i++) {
+            if (gameBoard[i].innerText == '') {
+                gameBoard[i].innerText = player
+                let score = minimax(gameBoard, 'O')
+                console.log(`i is ${i}`)
+                gameBoard[i].innerText = ''
+                if (score > bestScore) {
+                    bestScore = score
+                }
+            }
+        }
+        return bestScore
+    }
+    else {
+        let bestScore = Infinity
+        for (let j = 0; j < 9; j++) {
+            if (gameBoard[j].innerText == '') {
+                gameBoard[j].innerText = player
+                let score = minimax(gameBoard, 'X')
+                console.log(`j is ${j}`)
+                gameBoard[j].innerText = ''
+                if (score < bestScore) {
+                    bestScore = score
+                }
+            }
+        }
+        return bestScore
+    }
 }
