@@ -130,24 +130,24 @@ function aiRandomSelection() {
 
 // AI selection based on minimax
 function aiSmartSelection() {
-    let bestScore = -Infinity
+    let bestScore = Infinity
     let bestMove
     for (let i = 0; i < 9; i++) {
-        // console.log(`${i}`)
+        console.log(`${i}`)
         if (boardArray[i].innerText == '') {
             boardArray[i].innerText = 'O'
-            // console.log(`calling minimax at depth 0`)
+            console.log(`calling minimax at depth 0`)
             let score = minimax(boardArray, 0, false)
             boardArray[i].innerText = ''
-            // console.log(`score: ${score} -- bestScore: ${bestScore}`)
-            if (score > bestScore) {
+            console.log(`score: ${score} -- bestScore: ${bestScore}`)
+            if (score <= bestScore) {
                 bestScore = score
-                // console.log(`bestMove is currently ${i} and bestScore is ${bestScore}`)
+                console.log(`bestMove is currently ${i} and bestScore is ${bestScore}`)
                 bestMove = i
             }
         }
     }
-    // console.log(`hitting pickSelection next with bestMove being ${bestMove}`)
+    console.log(`hitting pickSelection next with bestMove being ${bestMove}`)
     pickSelection(boardArray[bestMove])
 }
 
@@ -163,13 +163,13 @@ function minimax(gameBoard, depth, isMaximizer) {
         for (let i = 0; i < 9; i++) {
             if (gameBoard[i].innerText == '') {
                 gameBoard[i].innerText = 'O'
-                // console.log(`calling minimax at depth ${depth + 1}`)
+                console.log(`calling minimizer at depth ${depth + 1}`)
                 let score = minimax(gameBoard, depth + 1, false)
                 gameBoard[i].innerText = ''
                 bestScore = Math.max(score, bestScore)
-                // console.log(`X's bestScore is ${bestScore}`)
             }
         }
+        console.log(`X's bestScore is ${bestScore}`)
         return bestScore
     }
     else {
@@ -177,13 +177,13 @@ function minimax(gameBoard, depth, isMaximizer) {
         for (let j = 0; j < 9; j++) {
             if (gameBoard[j].innerText == '') {
                 gameBoard[j].innerText = 'X'
-                // console.log(`calling minimax at depth ${depth + 1}`)
+                console.log(`calling maximizer at depth ${depth + 1}`)
                 let score = minimax(gameBoard, depth + 1, true)
                 gameBoard[j].innerText = ''
                 bestScore = Math.min(score, bestScore)
-                // console.log(`O's bestScore is ${bestScore}`)
             }
         }
+        console.log(`O's bestScore is ${bestScore}`)
         return bestScore
     }
 }
