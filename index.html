@@ -12,16 +12,23 @@
 
 <body>
     <div id="playerTurn">Player X's turn.</div>
+    <label for="AI">Choose a difficulty:</label>
+
+    <select name="AI" id="AISelect">
+        <option value="random">Random</option>
+        <option value="average">Average</option>
+        <option value="smart">Smart</option>
+    </select>
     <div id="gameBoard">
         <div class="board top left"></div>
         <div class="board top mid"></div>
         <div class="board top right"></div>
-        <div class="board cent left">X</div>
-        <div class="board cent mid">O</div>
+        <div class="board cent left"></div>
+        <div class="board cent mid"></div>
         <div class="board cent right"></div>
         <div class="board bot left"></div>
-        <div class="board bot mid">X</div>
-        <div class="board bot right">O</div>
+        <div class="board bot mid"></div>
+        <div class="board bot right"></div>
     </div>
     <button id="reset">Reset the game board</button>
 </body>

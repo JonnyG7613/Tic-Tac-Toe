@@ -1,6 +1,8 @@
 # Tic-Tac-Toe
 A Tic-Tac-Toe program
 
+V 1.2 Have fully functional "smart" AI to play against. Also, installed a drop down menu that will allow the player to select between a random AI, a smart AI, and an AI that is 50% random.
+
 V 1.1.2 Minor updates.
 
 V 1.1.1 Updated code to reduce redundancy as well as added comments to clarify code. Also removed unnecessary function loadBoard.
