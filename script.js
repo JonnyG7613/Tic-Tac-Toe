@@ -20,6 +20,26 @@ function turnOffBoard() {
 
 startUpBoard()
 
+function aiSelection() {
+    // Selects placement on gameBoard based on difficulty selected
+
+    if (difficulty.value == 'smart') {
+        aiSmartSelection()
+    } else if (difficulty.value == 'random') {
+        aiRandomSelection()
+    } else {
+
+        // Randomly determines if placement will be "smart" or random
+
+        let rando = Math.random()
+        if (rando > .5) {
+            aiSmartSelection()
+        } else {
+            aiRandomSelection()
+        }
+    }
+}
+
 // Takes selected location on the game board and decides if turn is legal or not, then
 // checks for winning conditions before switching player. Also returns a message directing
 // the player to pick another spot if they selected an occupied spot.
@@ -31,32 +51,25 @@ function pickSelection(element) {
             player = setPlayer(player)
             playerTurn.innerText = `Player ${player}'s turn.`
             if (player == 'O') {
-                if (difficulty.value == 'smart') {
-                    aiSmartSelection()
-                } else if (difficulty.value == 'random') {
-                    aiRandomSelection()
-                } else {
-                    let rando = Math.random(1)
-                    if (rando > .5) {
-                        aiSmartSelection()
-                    } else {
-                        aiRandomSelection()
-                    }
-                }
+                aiSelection()
             }
+
+            // Turns the board off if a player wins
+
         } else if ((result == 1) || (result == -1)) {
             playerTurn.innerText = `Player ${player} wins!`
             turnOffBoard()
             player = setPlayer(player)
         } else {
             playerTurn.innerText = `You tied.`
+            turnOffBoard()
             player = setPlayer(player)
         }
     } else {
         if (player == 'X') {
             playerTurn.innerText = `Pick another spot, ${player}`
         } else {
-            aiSmartSelection()
+            aiSelection()
         }
     }
 }
