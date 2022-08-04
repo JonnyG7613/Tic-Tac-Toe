@@ -7,7 +7,9 @@ difficulty = document.getElementById("AISelect")
 // Allows board locations to be clicked for placement
 function startUpBoard() {
     for (let i = 0; i < boardArray.length; i++) {
-        boardArray[i].onclick = function () { pickSelection(this) }
+        boardArray[i].onclick = function () {
+            pickSelection(this)
+        }
     }
 }
 
@@ -38,12 +40,15 @@ function aiSelection() {
             aiRandomSelection()
         }
     }
+
+    startUpBoard()
 }
 
 // Takes selected location on the game board and decides if turn is legal or not, then
 // checks for winning conditions before switching player. Also returns a message directing
 // the player to pick another spot if they selected an occupied spot.
 function pickSelection(element) {
+    turnOffBoard()
     if (element.innerText == "") {
         element.innerText = player
         let result = checkConditions(player)
@@ -141,15 +146,17 @@ function checkConditions() {
 function aiRandomSelection() {
     playerTurn.innerText = `Player ${player} is thinking.`
     randomPlacement = Math.floor(Math.random() * 9)
-    setTimeout(() => {
-        pickSelection(boardArray[randomPlacement])
-    }, 1000)
+    // setTimeout(() => {
+    pickSelection(boardArray[randomPlacement])
+    // }, 1000)
 }
 
 // AI selection based on minimax
 function aiSmartSelection() {
+    console.log('xxx')
     let bestScore = Infinity
     let bestMove
+    console.log('xxx2')
     playerTurn.innerText = `Player ${player} is thinking.`
     for (let i = 0; i < 9; i++) {
         if (boardArray[i].innerText == '') {
