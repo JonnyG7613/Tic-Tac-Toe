@@ -22,12 +22,12 @@ function turnOffBoard() {
 
 startUpBoard()
 
+
 function aiSelection() {
     // Selects placement on gameBoard based on difficulty selected
-
-    if (difficulty.value == 'smart') {
+    if (difficulty.value === 'smart') {
         aiSmartSelection()
-    } else if (difficulty.value == 'random') {
+    } else if (difficulty.value === 'random') {
         aiRandomSelection()
     } else {
 
@@ -40,15 +40,12 @@ function aiSelection() {
             aiRandomSelection()
         }
     }
-
-    startUpBoard()
 }
 
 // Takes selected location on the game board and decides if turn is legal or not, then
 // checks for winning conditions before switching player. Also returns a message directing
 // the player to pick another spot if they selected an occupied spot.
 function pickSelection(element) {
-    turnOffBoard()
     if (element.innerText == "") {
         element.innerText = player
         let result = checkConditions(player)
@@ -56,6 +53,7 @@ function pickSelection(element) {
             player = setPlayer(player)
             playerTurn.innerText = `Player ${player}'s turn.`
             if (player == 'O') {
+                console.log('AIs turn')
                 aiSelection()
             }
 
@@ -146,17 +144,13 @@ function checkConditions() {
 function aiRandomSelection() {
     playerTurn.innerText = `Player ${player} is thinking.`
     randomPlacement = Math.floor(Math.random() * 9)
-    // setTimeout(() => {
     pickSelection(boardArray[randomPlacement])
-    // }, 1000)
 }
 
 // AI selection based on minimax
 function aiSmartSelection() {
-    console.log('xxx')
     let bestScore = Infinity
     let bestMove
-    console.log('xxx2')
     playerTurn.innerText = `Player ${player} is thinking.`
     for (let i = 0; i < 9; i++) {
         if (boardArray[i].innerText == '') {
@@ -169,10 +163,7 @@ function aiSmartSelection() {
             }
         }
     }
-    setTimeout(() => {
-        pickSelection(boardArray[bestMove])
-    }, 1000)
-
+    pickSelection(boardArray[bestMove])
 }
 
 

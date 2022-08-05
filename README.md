@@ -1,6 +1,8 @@
 # Tic-Tac-Toe
 A Tic-Tac-Toe program
 
+V 1.3 Eliminated delay when computer is picking to avoid human picking for computer. Cleaned up superfluous code.
+
 V 1.2.1 Adjusted code to reduce redundancy and lag.
 
 V 1.2 Have fully functional "smart" AI to play against. Also, installed a drop down menu that will allow the player to select between a random AI, a smart AI, and an AI that is 50% random.
